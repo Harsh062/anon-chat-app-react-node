@@ -1,0 +1,16 @@
+{
+  "name": "anon-chat-react-node-app",
+  "description": "Anonymous chat application using ReactJs, NodeJs and SocketIo",
+  "version": "0.0.0",
+  "authors": [
+    "Harsh Gandhi"
+  ],
+  "main": "server.js",
+  "dependencies": {
+    "bower": "^1.7.9",
+    "express": "^4.14.0",
+    "http": "0.0.0",
+    "moment": "^2.15.1",
+    "socket.io": "^1.5.0"
+  }
+}
