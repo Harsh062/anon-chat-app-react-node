@@ -13,53 +13,52 @@ class ChatFeed extends Component {
             isMessageEmpty: true,
             updates: { 
               message: null 
-            }
+            } 
          };
       }
 
       componentDidMount(){
-        var self = this;
     
         // Add new messages from server (sended by client's app)
-        this.state.socket.on("user:message", function(msg){
-          var messages = self.state.messages
+        this.state.socket.on("user:message", (msg) => {
+          let messages = this.state.messages;
           messages.push(msg);
-          self.setState({
+          this.setState({
             messages: messages
           });
         });
 
         // Interaction with UI when the server detects that a user left the chat channel
-        this.state.socket.on("user:leave", function(msg){
-        var messages = self.state.messages
+        this.state.socket.on("user:leave", (msg) => {
+        let messages = this.state.messages
         messages.push(msg);
-        self.setState({
+        this.setState({
           messages: messages,
           updates: { message: "The interaction with chat feed is not available" }
         });
       });
   
         // A user joined into chat
-        this.state.socket.on("user:join", function(msg,color){
-        var messages = self.state.messages
+        this.state.socket.on("user:join", (msg,color) => {
+        let messages = this.state.messages
         messages.push(msg);
-        self.setState({
+        this.setState({
           messages: messages, 
           updates: { message: null }
         });
       });
   
       // Interaction with UI when the server detects that a user is typing a message
-      this.state.socket.on("user:typing", function(msg){
-        self.setState({
+      this.state.socket.on("user:typing", (msg) => {
+        this.setState({
           updates: msg
         });
         
-        setTimeout(function(){
-          self.setState({
+        setTimeout(() => {
+          this.setState({
             updates: { message: null }
           });
-        }.bind(self),2000);  // wait then reset updates
+        },3000);  // wait then reset updates
   
       });
     }
@@ -72,7 +71,7 @@ class ChatFeed extends Component {
       }
 
       submitMessage = () => {
-        var message = document.getElementById("msg");
+        let message = document.getElementById("msg");
     
         if(message.value !== "") {
           this.state.socket.emit("user-message", 
@@ -90,7 +89,7 @@ class ChatFeed extends Component {
 
       joinChatFeed = () => {
         // Generate a random color for indetify users
-        var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+        const color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
     
         // Save color in Browser localStorage
         localStorage.setItem('color', color);
@@ -116,7 +115,7 @@ class ChatFeed extends Component {
     if (e.key === 'Enter') {
       this.submitMessage();
     } else {
-      var isEmpty = true;
+      let isEmpty = true;
       if(e.target.value !== ""){
         isEmpty = false;
       }
@@ -124,22 +123,20 @@ class ChatFeed extends Component {
         isMessageEmpty: isEmpty
       });
 
-      var color = localStorage.getItem('color');
+      let color = localStorage.getItem('color');
       this.state.socket.emit("user-typing", color);
     }
 }
 
-render(){
-    
-        var self = this;
+  render(){
         // Take color for auxiliary messages
-        var updateColor = {
+        const updateColor = {
           color: this.state.updates.color
         }
     
         // Make a list of message for render
-        var messages = this.state.messages.map(function(msg){
-          var msgStyle = {
+        const messages = this.state.messages.map((msg) => {
+          const msgStyle = {
             color: msg.color
           }
           return <li style={msgStyle}> ({msg.time}) {msg.message} </li>
