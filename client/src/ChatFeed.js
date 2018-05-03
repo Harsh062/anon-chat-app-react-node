@@ -135,11 +135,11 @@ class ChatFeed extends Component {
         }
     
         // Make a list of message for render
-        const messages = this.state.messages.map((msg) => {
+        const messages = this.state.messages.map((msg, index) => {
           const msgStyle = {
             color: msg.color
           }
-          return <li style={msgStyle}> ({msg.time}) {msg.message} </li>
+          return <li style={msgStyle} key={index}> ({msg.time}) {msg.message} </li>
         });
         
         return(
@@ -153,7 +153,7 @@ class ChatFeed extends Component {
               </ul>
             </div>
             <div className="updates">
-              <span style={updateColor} class='text-muted'>{this.state.updates.message}</span>
+              <span style={updateColor} className='text-muted'>{this.state.updates.message}</span>
             </div>
             <div className="form-inline">
               <div className="form-group">
